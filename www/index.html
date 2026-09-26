@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>守燈人 · The Lamplighter</title>
+<meta name="description" content="守燈人：一段提著燈穿越長夜的 2.5D 橫向冒險。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23090b0f%27/%3E%3Cpath d=%27M16 5Q22 15 16 26Q10 15 16 5Z%27 fill=%27%23ffb46b%27/%3E%3Cpath d=%27M16 12Q19 18 16 23Q13 18 16 12Z%27 fill=%27%23fff0c8%27/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game"></div>
+  <div id="ui"></div>
+  <div id="loading"><div class="lt">守燈人</div><div class="lbar"><i></i></div><div class="lmsg">點燃燈芯……</div></div>
+  <script src="app.js"></script>
+  <!--DEV--><script>if (location.hostname === 'localhost') new EventSource('/esbuild').addEventListener('change', () => location.reload());</script><!--/DEV-->
+</body>
+</html>

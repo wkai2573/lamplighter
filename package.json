@@ -1,0 +1,21 @@
+{
+  "name": "lamplighter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "守燈人 The Lamplighter — 2.5D side-scrolling atmospheric adventure",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs dist 8080",
+    "test:bot": "node scripts/bot.mjs -1 905",
+    "test:chase": "node scripts/chasebot.mjs"
+  },
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "puppeteer-core": "25.12.0"
+  }
+}

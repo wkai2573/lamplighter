@@ -1,0 +1,23 @@
+# 相依套件
+node_modules/
+
+# 建置輸出（npm run build 產生；要用 GitHub Pages 從 dist 部署時再移除這行）
+dist/
+
+# 開發模式下 esbuild 輸出到 www/ 的打包檔
+www/app.js
+www/app.js.map
+
+# 測試腳本的截圖輸出（screenshots/ 是 README 用的展示圖，會保留）
+shots/
+
+# 記錄檔
+*.log
+npm-debug.log*
+
+# 系統與編輯器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
