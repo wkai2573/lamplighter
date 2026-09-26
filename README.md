@@ -6,6 +6,8 @@
 
 全程約 10～15 分鐘，共五章：林緣、沉村、斷橋、螢窟、燈塔。
 
+**線上遊玩：<https://wkai2573.github.io/lamplighter/>**（建議用桌面版 Chrome 或 Edge）
+
 | | |
 | --- | --- |
 | ![標題](screenshots/01_title.png) | ![溪流](screenshots/02_creek.png) |
@@ -39,7 +41,11 @@ npm run build      # 輸出到 dist/
 npm run preview    # 預覽 dist/：http://localhost:8080
 ```
 
-`dist/` 只有三個檔案（`index.html`、`app.js`、`style.css`，約 780 KB），直接上傳到 itch.io、GitHub Pages 或任何靜態網站空間即可遊玩。
+`dist/` 只有三個檔案（`index.html`、`app.js`、`style.css`，約 780 KB），直接上傳到 itch.io 或任何靜態網站空間即可遊玩。
+
+## 部署
+
+push 到 `main` 分支時，GitHub Actions（[.github/workflows/deploy.yml](.github/workflows/deploy.yml)）會自動執行 `npm ci` 與 `npm run build`，再把 `dist/` 發布到 GitHub Pages，約一兩分鐘後生效。也可以在 GitHub 的 Actions 頁面手動執行「Deploy to GitHub Pages」重新發布。
 
 ## 技術重點
 
@@ -75,6 +81,7 @@ src/
 www/                 index.html、style.css（開發用）
 scripts/             建置、開發伺服器、自動化測試
 docs/                技術說明
+.github/workflows/   自動部署到 GitHub Pages
 screenshots/         展示截圖
 ```
 
