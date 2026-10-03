@@ -5,11 +5,11 @@
   "description": "守燈人 The Lamplighter — 2.5D side-scrolling atmospheric adventure",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "build": "node scripts/build.mjs",
-    "preview": "node scripts/serve.mjs dist 8080",
-    "test:bot": "node scripts/bot.mjs -1 905",
-    "test:chase": "node scripts/chasebot.mjs"
+    "dev": "bun scripts/dev.mjs",
+    "build": "bun scripts/build.mjs",
+    "preview": "bun scripts/serve.mjs dist 8080",
+    "test:bot": "bun scripts/bot.mjs -1 905",
+    "test:chase": "bun scripts/chasebot.mjs"
   },
   "dependencies": {
     "three": "0.186.1"

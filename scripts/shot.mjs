@@ -1,4 +1,4 @@
-// Usage: node scripts/shot.mjs "<query>" out.png [waitMs] [width] [height] [evalJs]
+// Usage: bun scripts/shot.mjs "<query>" out.png [waitMs] [width] [height] [evalJs]
 import puppeteer from 'puppeteer-core';
 
 const [, , query = '', out = 'shot.png', wait = '2500', w = '1280', h = '720', evalJs = ''] = process.argv;

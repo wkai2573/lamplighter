@@ -1,4 +1,4 @@
-// Usage: node scripts/tour.mjs "x1,x2,..." [prefix] [wait] [extraQuery] [evalBeforeEach]
+// Usage: bun scripts/tour.mjs "x1,x2,..." [prefix] [wait] [extraQuery] [evalBeforeEach]
 import puppeteer from 'puppeteer-core';
 import { mkdirSync } from 'node:fs';
 

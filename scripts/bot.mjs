@@ -1,5 +1,5 @@
 // Headless traversal test: a simple bot runs the real physics through the whole level
-// and reports where it gets stuck or dies.  Usage: node scripts/bot.mjs [startX] [endX]
+// and reports where it gets stuck or dies.  Usage: bun scripts/bot.mjs [startX] [endX]
 import * as THREE from 'three';
 import { Collision } from '../src/game/collision.js';
 import { Player } from '../src/game/player.js';

@@ -10,7 +10,8 @@
 | 打包 | esbuild | 開發模式 watch + serve（存檔自動重新整理）；正式版壓縮成單一 `app.js` |
 | 聲音 | Web Audio API | 全部即時合成，沒有音檔 |
 | 介面 | HTML + CSS | 疊在 canvas 上；字型為 Noto Serif TC 與 Cormorant Garamond（Google Fonts，離線時改用系統字型） |
-| 測試 | Node.js + puppeteer-core | 操控系統內建的 Microsoft Edge 截圖；物理與關卡測試直接在 Node 執行 |
+| 執行環境 | Bun | 套件管理、建置與開發伺服器；GitHub Actions 也用 Bun 建置 |
+| 測試 | Bun + puppeteer-core | 操控系統內建的 Microsoft Edge 截圖；物理與關卡測試直接在 Bun 執行 |
 
 成品：約 7,200 行程式碼，`dist/` 只有 `index.html`、`app.js`（約 780 KB，含 Three.js）、`style.css` 三個檔案。
 
@@ -191,12 +192,12 @@ scripts/               建置、伺服器、自動化測試
 
 | 指令 | 作用 |
 | --- | --- |
-| `npm run test:bot` | 在 Node 裡用真實的物理與碰撞，讓機器人從頭跑到尾，回報卡住或死亡的位置 |
-| `npm run test:chase` | 模擬終章追逐戰，驗證直跑與遲疑時是否逃得掉 |
-| `node scripts/tour.mjs "56,230,575" 前綴` | 傳送到指定位置並截圖（需先 `npm run dev`） |
-| `node scripts/flow.mjs` | 用模擬按鍵走完標題、開場、點燈、高舉、光爆、暫停 |
-| `node scripts/savetest.mjs` | 測試存檔、繼續與設定選單 |
-| `node scripts/audiotest.mjs` | 用 AnalyserNode 量測各場景音量，檢查無聲、NaN 與爆音 |
+| `bun run test:bot` | 在 Bun 裡用真實的物理與碰撞，讓機器人從頭跑到尾，回報卡住或死亡的位置 |
+| `bun run test:chase` | 模擬終章追逐戰，驗證直跑與遲疑時是否逃得掉 |
+| `bun scripts/tour.mjs "56,230,575" 前綴` | 傳送到指定位置並截圖（需先 `bun run dev`） |
+| `bun scripts/flow.mjs` | 用模擬按鍵走完標題、開場、點燈、高舉、光爆、暫停 |
+| `bun scripts/savetest.mjs` | 測試存檔、繼續與設定選單 |
+| `bun scripts/audiotest.mjs` | 用 AnalyserNode 量測各場景音量，檢查無聲、NaN 與爆音 |
 
 開發用網址參數：`?skip` 跳過標題、`?x=430` 傳送到指定位置、`?q=low` 指定畫質、`?lit=3` 預先點亮前幾座石燈、`?auto` 自動往右走。
 

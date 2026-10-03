@@ -32,20 +32,20 @@
 
 ## 執行
 
-需要 Node.js 18 以上。
+需要 [Bun](https://bun.sh)。
 
 ```bash
-npm install
-npm run dev        # 開發模式：http://localhost:8000 （存檔後自動重新整理）
-npm run build      # 輸出到 dist/
-npm run preview    # 預覽 dist/：http://localhost:8080
+bun install
+bun run dev        # 開發模式：http://localhost:8000 （存檔後自動重新整理；8000 被佔用時改用 8001～8009，以終端機顯示為準）
+bun run build      # 輸出到 dist/
+bun run preview    # 預覽 dist/：http://localhost:8080
 ```
 
 `dist/` 只有三個檔案（`index.html`、`app.js`、`style.css`，約 780 KB），直接上傳到 itch.io 或任何靜態網站空間即可遊玩。
 
 ## 部署
 
-push 到 `main` 分支時，GitHub Actions（[.github/workflows/deploy.yml](.github/workflows/deploy.yml)）會自動執行 `npm ci` 與 `npm run build`，再把 `dist/` 發布到 GitHub Pages，約一兩分鐘後生效。也可以在 GitHub 的 Actions 頁面手動執行「Deploy to GitHub Pages」重新發布。
+push 到 `main` 分支時，GitHub Actions（[.github/workflows/deploy.yml](.github/workflows/deploy.yml)）會自動執行 `bun install --frozen-lockfile` 與 `bun run build`，再把 `dist/` 發布到 GitHub Pages，約一兩分鐘後生效。也可以在 GitHub 的 Actions 頁面手動執行「Deploy to GitHub Pages」重新發布。
 
 ## 技術重點
 
@@ -90,9 +90,9 @@ screenshots/         展示截圖
 ## 測試腳本
 
 ```bash
-npm run test:bot     # 用真實物理讓機器人從頭跑到尾，回報卡關或死亡位置
-npm run test:chase   # 模擬終章追逐戰是否逃得掉
-node scripts/tour.mjs "56,230,575,891" shot   # 在指定位置截圖（需先 npm run dev）
+bun run test:bot     # 用真實物理讓機器人從頭跑到尾，回報卡關或死亡位置
+bun run test:chase   # 模擬終章追逐戰是否逃得掉
+bun scripts/tour.mjs "56,230,575,891" shot   # 在指定位置截圖（需先 bun run dev）
 ```
 
 截圖腳本透過 puppeteer-core 使用系統安裝的 Microsoft Edge。

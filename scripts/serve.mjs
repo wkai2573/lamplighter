@@ -1,4 +1,4 @@
-// Minimal static server for previewing the production build: node scripts/serve.mjs [dir] [port]
+// Minimal static server for previewing the production build: bun scripts/serve.mjs [dir] [port]
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';

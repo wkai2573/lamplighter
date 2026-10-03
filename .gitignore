@@ -1,7 +1,7 @@
 # 相依套件
 node_modules/
 
-# 建置輸出（npm run build 產生；GitHub Pages 由 Actions 在雲端建置，不需要提交）
+# 建置輸出（bun run build 產生；GitHub Pages 由 Actions 在雲端建置，不需要提交）
 dist/
 
 # 開發模式下 esbuild 輸出到 www/ 的打包檔
@@ -13,7 +13,6 @@ shots/
 
 # 記錄檔
 *.log
-npm-debug.log*
 
 # 系統與編輯器
 .DS_Store

@@ -12,5 +12,6 @@ const ctx = await esbuild.context({
 });
 
 await ctx.watch();
-const { port } = await ctx.serve({ servedir: 'www', port: 8000 });
+// no fixed port: esbuild takes the first free one from 8000–8009, since 8000 is sometimes held by another program
+const { port } = await ctx.serve({ servedir: 'www' });
 console.log(`\n  守燈人 dev server → http://localhost:${port}/\n`);
