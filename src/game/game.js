@@ -131,6 +131,8 @@ export class Game {
     this.ending = null;
     this.lighting = null;
     this.deathT = -1;
+    this.safeSpot = null;
+    this.respawnAt = null;
     this.stats = { time: 0, deaths: 0, fireflies: 0 };
     for (const b of this.beacons) this.setBeaconLit(b, false, true);
     this.shadows.reset(-1e9);
@@ -181,10 +183,11 @@ export class Game {
     this.placePlayer(cx + 1.3);
   }
 
-  placePlayer(x) {
+  placePlayer(x, y) {
     const p = this.player;
-    const f = this.col.floor(x - 0.2, x + 0.2, 60, -60, false);
-    p.reset(x, f ? f.y : groundAt(x) ?? 0);
+    const f = y === undefined ? this.col.floor(x - 0.2, x + 0.2, 60, -60, false) : null;
+    p.reset(x, y ?? (f ? f.y : groundAt(x) ?? 0));
+    this.safeSpot = null;
     this.deathT = -1;
     this.fade = 0;
     this.ui.death(false);
@@ -278,6 +281,7 @@ export class Game {
     ctx.windForce = wres.windForce;
     const ctrlInput = playing && !this.lighting && !this.ending ? input : null;
     p.update(dt, ctrlInput, ctx);
+    this.trackSafeSpot();
     if (!ctrlInput) {
       input.consume('jump');
       input.consume('flare');
@@ -751,11 +755,24 @@ export class Game {
   }
 
   // ---------------------------------------------------------------- death
+  // Remember the last place the traveller stood firmly (static ground, clear of any edge),
+  // so a fall or a drowning only costs the last few steps.
+  trackSafeSpot() {
+    const p = this.player, g = p.ground;
+    if (this.state !== 'play' || p.dead || !p.onGround || !g || p.inWater) return;
+    if (g.ref?.kind === 'bridge' || g.ref?.kind === 'crystal') return; // planks break, crystals fade
+    const side = (dx) => this.col.floor(p.x + dx - 0.05, p.x + dx + 0.05, p.y + 0.35, p.y - 0.35, false);
+    const l = side(-0.9), r = side(0.9);
+    if (l && r && Math.abs(l.y - p.y) < 0.35 && Math.abs(r.y - p.y) < 0.35) this.safeSpot = { x: p.x, y: p.y };
+  }
+
   onDeath(kind) {
     this.stats.deaths++;
     this.audio.sfx.death();
     this.audio.core.setMuffle(500, 0.6);
     this.deathT = 0;
+    // the great shadow still sends you back to the stone lantern
+    this.respawnAt = (kind === 'fall' || kind === 'drown') && !this.chase.active ? this.safeSpot : null;
     this.rig.addTrauma(kind === 'caught' ? 0.8 : 0.3);
     if (kind === 'drown') this.splashFx(this.player.x, this.player.y, 1.5);
   }
@@ -775,16 +792,18 @@ export class Game {
   }
 
   respawn() {
-    const cp = this.checkpoint;
-    const x = cp >= 0 ? this.beacons[cp].x + 1.3 : 2;
+    const cp = this.checkpoint, near = this.respawnAt, oil = this.player.oil;
+    const x = near ? near.x : cp >= 0 ? this.beacons[cp].x + 1.3 : 2;
     this.shadows.reset(cp >= 0 ? this.beacons[cp].x : -1e9);
     this.bridge.reset();
     this.chase.active = false;
     this.lighting = null;
-    this.placePlayer(x);
+    this.placePlayer(x, near?.y);
     this.player.ctrl = true;
-    this.player.oil = 1;
+    // only a stone lantern refills the oil; after a fall there's just enough left to see by
+    this.player.oil = near ? Math.max(oil, 0.3) : 1;
     this.player.lanternOut = false;
+    this.respawnAt = null;
     this.deathT = -1;
     this.fade = 0;
     this.audio.core.setMuffle(20000, 0.8);
