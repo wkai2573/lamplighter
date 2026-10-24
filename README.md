@@ -6,7 +6,7 @@
 
 全程約 10～15 分鐘，共五章：林緣、沉村、斷橋、螢窟、燈塔。
 
-**線上遊玩：<https://wkai2573.github.io/lamplighter/>**（建議用桌面版 Chrome 或 Edge）
+**線上遊玩：<https://hub.ouo1.workers.dev/lamplighter/>**（建議用桌面版 Chrome 或 Edge）
 
 | | |
 | --- | --- |
@@ -45,7 +45,7 @@ bun run preview    # 預覽 dist/：http://localhost:8080
 
 ## 部署
 
-push 到 `main` 分支時，GitHub Actions（[.github/workflows/deploy.yml](.github/workflows/deploy.yml)）會自動執行 `bun install --frozen-lockfile` 與 `bun run build`，再把 `dist/` 發布到 GitHub Pages，約一兩分鐘後生效。也可以在 GitHub 的 Actions 頁面手動執行「Deploy to GitHub Pages」重新發布。
+push 到 `main` 分支時，GitHub Actions（[.github/workflows/deploy.yml](.github/workflows/deploy.yml)）會自動執行 `bun install --frozen-lockfile` 與 `bun run build`，再發布至 Hub Worker 子路徑（https://hub.ouo1.workers.dev/lamplighter/）。也可以在 GitHub 的 Actions 頁面手動執行「Publish to Hub Worker」重新發布。
 
 ## 技術重點
 
@@ -81,7 +81,7 @@ src/
 www/                 index.html、style.css（開發用）
 scripts/             建置、開發伺服器、自動化測試
 docs/                技術說明
-.github/workflows/   自動部署到 GitHub Pages
+.github/workflows/   自動部署至 Hub Worker 子路徑
 screenshots/         展示截圖
 ```
 

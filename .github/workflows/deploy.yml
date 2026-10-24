@@ -1,40 +1,60 @@
-# push 到 main 時建置並發布到 GitHub Pages
-name: Deploy to GitHub Pages
+name: Publish to Hub Worker
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# 同時只跑一個部署；新的 push 進來時不取消正在進行的部署
 concurrency:
-  group: pages
+  group: publish-hub
   cancel-in-progress: false
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
-      - run: bun run build
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          path: dist
+env:
+  APP_NAME: lamplighter
+  HUB_REPO: ${{ vars.HUB_REPO || 'wkai2573/hub' }}
 
-  deploy:
-    needs: build
+jobs:
+  publish:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v5
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Checkout hub repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.HUB_REPO }}
+          token: ${{ secrets.HUB_PUSH_TOKEN }}
+          path: hub
+
+      - name: Sync dist into hub
+        run: |
+          rm -rf "hub/apps/${APP_NAME}"
+          mkdir -p "hub/apps/${APP_NAME}"
+          cp -r dist/. "hub/apps/${APP_NAME}/"
+
+      - name: Commit & push to hub
+        working-directory: hub
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A "apps/${APP_NAME}"
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+            exit 0
+          fi
+          git commit -m "deploy(${APP_NAME}): ${GITHUB_REPOSITORY}@${GITHUB_SHA::7}"
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase
+          done
+          exit 1
