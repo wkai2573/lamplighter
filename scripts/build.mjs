@@ -20,4 +20,5 @@ await esbuild.build({
 const html = readFileSync('www/index.html', 'utf8').replace(/<!--DEV-->[\s\S]*?<!--\/DEV-->/, '');
 writeFileSync('dist/index.html', html);
 copyFileSync('www/style.css', 'dist/style.css');
+copyFileSync('www/thumb.jpg', 'dist/thumb.jpg');
 console.log('built → dist/');
